@@ -4,16 +4,13 @@ close(f)
 
 
 function solve(target = 2020) 
-    diffs = Dict()
 
     for num1 in numbers
         for num2 in numbers
-
             diff = target - num1 - num2
-            if num2 in keys(diffs)
+            if diff in numbers
                 return num1*num2*diff
             end
-            diffs[diff] = [num1,num2]
         end
     end
     print(diffs)
