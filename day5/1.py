@@ -3,7 +3,7 @@ with open("input.txt") as f:
 
 inp = [line.strip() for line in inp]
 
-def score(ticket: str):
+def get_id(ticket: str):
     row = ticket[:7].replace("F","0").replace("B","1")
     col = ticket[7:].replace("L","0").replace("R","1")
     row = int(row,2)
@@ -11,9 +11,5 @@ def score(ticket: str):
 
     return row*8 + col
 
-max_score = 0
-
-for ticket in inp:
-    max_score = max(max_score, score(ticket))
-
-print(max_score)
+ids = [get_id(x) for x in inp]
+print(max(ids))
