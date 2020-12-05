@@ -13,6 +13,5 @@ def get_id(ticket: str):
 
 ids = [get_id(x) for x in inp]
 
-for i in range(min(ids),max(ids)+1):
-    if i not in ids:
-        print(i)
+all_ids = set(range(min(ids),max(ids)))
+print(all_ids.difference(set(ids)))
