@@ -3,17 +3,15 @@ answers = read(f, String)
 close(f)
 
 answers = split(answers, "\n\n")
-answers = [replace(x, "\n" => "") for x in answers]
 answers = [split(x) for x in answers]
 
-function all_yes(group::Array)
-    common = group[1]
-    if length(group) > 1
-        for i in 2:length(group)
-            common = intersect(common,group[i])
-        end
+function count_yes(group)
+    out = first(group)
+    for i in group
+        out = intersect(out,i)
     end
-    return common
+
+    return length(out)
 end
 
-print(sum([length(all_yes(x)) for x in answers]))
+print(sum([count_yes(x) for x in answers]))
