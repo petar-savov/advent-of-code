@@ -1,47 +1,33 @@
 import re
-
+from collections import defaultdict
 with open("input.txt") as f:
     inp = f.readlines()
 
-def parse(inp: list) -> dict:
-    bags = {}
+def parse(inp):
+    contained_in = defaultdict(set)
     for line in inp:
         line = line.split("contain")
         parent_bag = line[0].split("bags")[0].strip()
         
-        bag_contents = {}
         for bag in line[1].split(','):
-
             bag = bag.split()
-            key = bag[1] + " " + bag[2]
-
+            colour = bag[1] + " " + bag[2]
             if re.search('\d',bag[0]):
-                count = int(bag[0])
-                bag_contents[key] = count
-            else:
-                bag_contents = None
+                if colour in contained_in:
+                    contained_in[colour].append(parent_bag)
+                else:
+                    contained_in[colour] = [parent_bag]
 
-        bags[parent_bag] = bag_contents
-    
-    return bags
+    return contained_in
 
 bags = parse(inp)
 
-parents = []
-children = ['shiny gold']
+shiny_gold_parents = set()
+def get_all_parents(color):
+    for i in bags[color]:
+        shiny_gold_parents.add(i)
+        get_all_parents(i)
 
-while True:
-    new_parents = []
-    for bag_name in bags:
-        if bags[bag_name] is not None:
-            for name in children:
-                if name in bags[bag_name].keys():
-                    new_parents.append(bag_name)
+get_all_parents('shiny gold')
+print(len(shiny_gold_parents))
 
-    if len(new_parents) == 0:
-        break
-    else:
-        parents.extend(new_parents)
-        children = new_parents
-
-print(len(set(parents)))
