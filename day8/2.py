@@ -30,7 +30,10 @@ def run(moves):
 
     if i >= len(moves):
         print(acc)
+    
+    return visited_ind
 
+visited_ind = run(moves)
 to_flip = [i for i in visited_ind if moves[i] in ['jmp','nop']]
 
 for i in to_flip:
