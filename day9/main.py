@@ -1,4 +1,4 @@
-with open("input9.txt") as f:
+with open("input.txt") as f:
     inp = [int(x.strip()) for x in f.readlines()]
 
 #part 1
@@ -18,7 +18,6 @@ for i,n in enumerate(inp):
 print(answer)
 
 #part 2
-
 target = answer
 
 for size in range(2,len(inp)):
