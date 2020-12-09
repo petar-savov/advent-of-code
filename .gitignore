@@ -1,4 +1,4 @@
 .*
 !/.gitignore
 **/build
-**/input.txt
+**/input**
