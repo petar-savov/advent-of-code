@@ -19,9 +19,9 @@ int main() {
     for (uint16_t i = 25; i < data.size(); ++i) {
         std::vector<long long> prev (data.begin()+i-25,data.begin()+i+1);
         std::set<long long> pair_sums;
-        for (auto j:prev)
-            for (auto k:prev)
-                pair_sums.insert(j+k);
+        for (uint16_t j = 0; j<prev.size(); ++j)
+            for (uint16_t k=0; k<j; ++k)
+                pair_sums.insert(prev[j]+prev[k]);
         
         const bool is_in = pair_sums.find(data.at(i)) != pair_sums.end();
         if (!is_in) {
