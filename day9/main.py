@@ -20,15 +20,19 @@ print(answer)
 #part 2
 target = answer
 
-for size in range(2,len(inp)):
-    for i,_ in enumerate(inp):
-        if i>=size:
-            sub = inp[i-size:i]
-            csum = sum(sub)
-            if csum == target:
-                print(min(sub)+max(sub))
-                break
-    else:
-        continue
-    break
+start, end = 0,1 
+csum = inp[0] + inp[1]
+
+while csum!=target:
+    while(csum<target):
+        end += 1
+        csum+=inp[end]
+
+    while(csum>target):
+        csum-=inp[start]
+        start+=1
+
+print(min(inp[start:end])+max(inp[start:end]))
+
+
 
