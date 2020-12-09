@@ -28,5 +28,7 @@ for size in range(2,len(inp)):
             if csum == target:
                 print(min(sub)+max(sub))
                 break
-
+    else:
+        continue
+    break
 
