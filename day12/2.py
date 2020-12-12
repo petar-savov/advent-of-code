@@ -8,26 +8,25 @@ for instr in inp:
     action = instr[0]
     arg = int(instr[1:])
 
-    if action == 'F':
-        x += wx+arg
-        y += wy*arg
-    elif action == 'N':
+    if action == "F":
+        x += wx * arg
+        y += wy * arg
+    elif action == "N":
         wy += arg
-    elif action == 'S':
+    elif action == "S":
         wy -= arg
-    elif action == 'W':
+    elif action == "W":
         wx -= arg
-    elif action == 'E':
+    elif action == "E":
         wx += arg
-    elif action == 'L':
+    elif action == "L":
         # rotate once for 90 deg in angle
         while arg:
-            wx, wy  = -wy, wx
+            wx, wy = -wy, wx
             arg -= 90
-    elif action == 'R':
+    elif action == "R":
         while arg:
             wx, wy = wy, -wx
             arg -= 90
-    
-print(abs(x)+abs(y))
-        
+print(abs(x) + abs(y))
+
