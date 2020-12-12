@@ -27,7 +27,6 @@ class Ship:
             self.move(instruction=self.orientation + instruction[1:])
 
     def rotate(self, instruction):
-        # to do: implement without direct lookup
         direction = instruction
         if self.orientation == "E":
             dirs = {
