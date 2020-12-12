@@ -11,6 +11,7 @@ def read(board: str) -> np.array:
 
     return board
 
+
 def transform(input_board: np.array, fn, thr) -> np.array:
 
     output_board = np.zeros(input_board.shape)
@@ -18,7 +19,9 @@ def transform(input_board: np.array, fn, thr) -> np.array:
     for i, row in enumerate(input_board):
         for j, _ in enumerate(row):
             neighbours = fn(pt=(i, j), board=input_board)
-            output_board[i, j] = rules(pt_val=input_board[i, j], neighbours=neighbours, thr=thr)
+            output_board[i, j] = rules(
+                pt_val=input_board[i, j], neighbours=neighbours, thr=thr
+            )
 
     return output_board
 
@@ -32,6 +35,7 @@ def rules(pt_val, neighbours, thr):
 
 
 # part 1
+
 
 def count_neighbours(pt, board) -> int:
     x, y = pt[0], pt[1]
@@ -58,40 +62,45 @@ print(np.sum(board == 1))
 
 # part 2
 
+
 def count_visible(pt, board) -> int:
-    
+
     nrows, ncols = board.shape
     counted = set()
-    #for dr, dc in [(0,1),(0,-1),(1,0),(1,-1),(1,1),(-1,0),(-1,1),(-1,-1)]:
-    for dr, dc in [(0,1),(1,0)]:
-        row, col = pt[0],pt[1]
+    for dr, dc in [
+        (0, 1),
+        (0, -1),
+        (1, 0),
+        (1, -1),
+        (1, 1),
+        (-1, 0),
+        (-1, 1),
+        (-1, -1),
+    ]:
+
+        row, col = pt[0], pt[1]
         while True:
-            newr = row + dr
-            newc = col + dc
-            
-            if newr > nrows - 1 or newr < 0:
-                print("got here")
+            row = row + dr
+            col = col + dc
+
+            if row > nrows - 1 or row < 0:
                 break
-            if newc > ncols - 1 or newc < 0:
-                print("HELOOO")
+            if col > ncols - 1 or col < 0:
                 break
-            
-            if board[newr,newc] == 1:
-                print("------------")
-                counted.add((newr,newc))
+
+            if board[row, col] == 1:
+                counted.add((row, col))
                 break
-    
+            if board[row, col] == 0:
+                break
+
     return len(counted)
 
 
-test = np.array([[1,0,0],[1,1,1]])
-count_visible((0,0),test)
-
-
 board = read(inp)
-step = transform(board, fn = count_visible, thr=5)
+step = transform(board, fn=count_visible, thr=5)
 while not np.all(board == step):
     board = np.copy(step)
-    step = transform(board, fn = count_visible, thr=5)
+    step = transform(board, fn=count_visible, thr=5)
 
 print(np.sum(board == 1))
