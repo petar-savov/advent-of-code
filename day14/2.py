@@ -1,32 +1,30 @@
 import re
 from itertools import product
-from collections import OrderedDict
-import copy
 
 with open("input.txt") as f:
     inp = [line.strip() for line in f.readlines()]
 
-# parse input
-instr = OrderedDict()
+instr = {}
+
 for line in inp:
     if re.match("mask", line):
         mask = line.split(" = ")[1]
-        instr[mask] = OrderedDict()
+        instr[mask] = {}
     else:
         mem = int(re.findall("mem\[(.*)\]", line)[0])
         val = int(line.split(" = ")[1])
         instr[mask][mem] = val
 
 
-def mask_address(adr: int, mask: str) -> list:
+def unmask(addr: int, mask: str) -> list:
 
-    addrbin = bin(adr)[2:]
+    addrbin = bin(addr)[2:]
     addrbin = (len(mask) - len(addrbin)) * "0" + addrbin
 
     masked = []
     slot_ids = []
     for i, c in enumerate(mask):
-        if c == "1":
+        if c == "0":
             masked.append(addrbin[i])
         elif c == "X":
             slot_ids.append(i)
@@ -37,7 +35,7 @@ def mask_address(adr: int, mask: str) -> list:
     addresses = []
     perms = product("10", repeat=len(slot_ids))
     for p in perms:
-        new = copy.deepcopy(masked)
+        new = masked.copy()
         for i, c in enumerate(p):
             new[slot_ids[i]] = c
         addresses.append("".join(new))
@@ -48,12 +46,12 @@ def mask_address(adr: int, mask: str) -> list:
     return list(set(addresses))
 
 
-mem = OrderedDict()
+result = {}
 
 for mask in instr:
     for addr in instr[mask]:
-        res = mask_address(addr, mask)
-        for r in res:
-            mem[r] = instr[mask][addr]
+        new_addresses = unmask(addr, mask)
+        for r in new_addresses:
+            result[r] = instr[mask][addr]
 
-print(sum(mem.values()))
+print(sum(result.values()))
