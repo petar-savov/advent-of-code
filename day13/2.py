@@ -1,24 +1,25 @@
-with open("input.txt") as f:
+from itertools import count
+
+with open("input-test.txt") as f:
     inp = [line.strip() for line in f.readlines()][1]
-    inp = inp.split(',')
+    inp = inp.split(",")
 
-diffs = []
-nums = []
-for i, n in enumerate(inp):
-    if n != 'x':
-        n = int(n)
-        diffs.append(n - i)
-        nums.append(n)
+nums = [(i, int(n)) for i, n in enumerate(inp) if n != "x"]
 
-prod = 1
-for num in nums:
-    prod *= num
+ans = nums[0][1]
+step = 1
 
-ans = 0
-for d, num in zip(diffs,nums):
-    
-    b = prod // num
-    ans += d * b * pow(b, num-2, num)
-    ans %= prod
+for i, n in nums:
+
+    while True:
+        if (ans + i) % n == 0:
+            ans = ans + step
+            # ans = next(c for c in count(ans, step) if (c + i) % n == 0)
+            break
+        step *= n
 
 print(ans)
+
+
+next(count(100, 10))
+
