@@ -9,11 +9,10 @@ buses = [int(x) for x in buses]
 
 depart = max(buses) + start
 for bus in buses:
-    dep = start - start%bus + bus
+    dep = start - start % bus + bus
     if dep < depart:
         depart = dep
         bus_id = bus
 
-print((depart-start)*bus_id)
-
+print((depart - start) * bus_id)
 
