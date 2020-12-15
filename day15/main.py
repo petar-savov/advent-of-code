@@ -1,16 +1,10 @@
 with open("day15/input.txt") as f:
     inp = [int(x) for x in f.readlines()[0].split(",")]
 
-track = dict((n, i) for i, n in enumerate(inp))
+steps = 30_000_000
 
-target = 30_000_000  # change to 2020 for part 1
-for i in range(len(inp) - 1, target - 1):
-    n = inp[-1]
-    if n not in track:
-        track[n] = i
-        inp.append(0)
-    else:
-        inp.append(len(inp) - 1 - track[n])
-        track[n] = i
+last, track = inp[-1], {n: i + 1 for i, n in enumerate(inp)}
+for i in range(len(inp), steps):
+    track[last], last = i, i - track.get(last, i)
 
-print(inp[-1])
+print(last)
