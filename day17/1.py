@@ -39,7 +39,6 @@ def count_neighbours(pt, box) -> int:
 
 def transform(input_shape: np.array) -> np.array:
 
-    # pad every dimension of input with zeros here
     input_shape = np.pad(input_shape, 1)
     output_shape = np.zeros(input_shape.shape)
     dims = [d for d in input_shape.shape]
@@ -54,7 +53,7 @@ def transform(input_shape: np.array) -> np.array:
     return output_shape
 
 
-box = transform(read(inp))
-for i in range(5):
+box = read(inp)
+for i in range(6):
     box = transform(box)
 print(box.sum())
