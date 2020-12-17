@@ -44,14 +44,9 @@ def transform(input_shape: np.array) -> np.array:
     input_shape = np.pad(input_shape, 1)
     output_shape = np.zeros(input_shape.shape)
     dims = [d for d in input_shape.shape]
-    for a in range(dims[0]):
-        for z in range(dims[1]):
-            for y in range(dims[2]):
-                for x in range(dims[3]):
-                    neighbours = count_neighbours(pt=(a, z, y, x), box=input_shape)
-                    output_shape[a, z, y, x] = rules(
-                        pt_val=input_shape[a, z, y, x], neighbours=neighbours
-                    )
+    for index, val in np.ndenumerate(input_shape):
+        neighbours = count_neighbours(pt=index, box=input_shape)
+        output_shape[index] = rules(pt_val=val, neighbours=neighbours)
 
     return output_shape
 
