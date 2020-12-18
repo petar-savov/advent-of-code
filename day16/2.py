@@ -5,6 +5,7 @@ with open("day16/input.txt") as f:
 
 constraints, your_ticket, tickets = inp.split("\n\n")
 
+your_ticket = [int(x) for x in your_ticket.split("\n")[1].split(",")]
 fields = re.findall("(.*):", constraints)
 lims = re.findall(" (\d+)-(\d+) or (\d+)-(\d+)", constraints)
 lims = [((int(x[0]), int(x[1])), (int(x[2]), int(x[3]))) for x in lims]
@@ -32,6 +33,7 @@ for ticket in tickets:
     if valid:
         to_keep.append(ticket)
 
+# find all possible positions for each field
 poss = {}
 for i in range(len(to_keep[0])):
     for name in ref:
@@ -41,7 +43,7 @@ for i in range(len(to_keep[0])):
             else:
                 poss[name].add(i)
 
-
+# narrow down starting from fields with only one possible position
 res = {}
 while len(res) < len(poss):
     for key in poss:
@@ -50,8 +52,6 @@ while len(res) < len(poss):
             res[key] = ind
             for k2 in poss:
                 poss[k2].discard(ind)
-
-your_ticket = [int(x) for x in your_ticket.split("\n")[1].split(",")]
 
 prod = 1
 for key in res:
