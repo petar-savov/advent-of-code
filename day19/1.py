@@ -30,6 +30,6 @@ pattern = re.compile("^" + parse("0") + "$")
 
 count = 0
 for m in messages:
-    if re.match(pattern, m):
+    if re.fullmatch(pattern, m):
         count += 1
 print(count)
