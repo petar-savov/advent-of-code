@@ -148,3 +148,9 @@ while True:
         hmin += 10
         hmax += 10
 
+with open("day20/monster.txt") as f:
+    monster = f.read()
+
+monster = monster.split("\n")
+monster = [[1 if c == "#" else 0 for c in line] for line in monster]
+
