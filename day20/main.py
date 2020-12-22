@@ -100,6 +100,51 @@ while True:
         break
 
 # img is now the first row
-expand = np.empty((110, 120))
+expand = np.zeros((110, 120)) - 1
 img = np.vstack((img, expand))
+
+hmin, hmax = 0, 10
+vmin, vmax = 10, 20
+
+while True:
+
+    if hmin == 0:
+        for tile in tiles:
+            flips = get_flips(tiles[tile])
+            br = False
+            for flip in flips:
+                if np.array_equal(img[vmin - 1, hmin:hmax], flip[0, :]):
+                    img[vmin:vmax, hmin:hmax] = flip
+                    br = True
+                    to_pop = tile
+                    break
+            if br:
+                break
+    else:
+        for tile in tiles:
+            flips = get_flips(tiles[tile])
+            br = False
+            for flip in flips:
+                if np.array_equal(
+                    img[vmin - 1, hmin:hmax], flip[0, :]
+                ) and np.array_equal(img[vmin:vmax, hmin - 1], flip[:, 0]):
+                    img[vmin:vmax, hmin:hmax] = flip
+                    br = True
+                    to_pop = tile
+                    break
+            if br:
+                break
+
+    tiles.pop(to_pop)
+
+    if (vmax, hmax) == img.shape:
+        break
+    if hmax == img.shape[1]:
+        hmin, hmax = 0, 10
+        vmin += 10
+        vmax += 10
+
+    else:
+        hmin += 10
+        hmax += 10
 
