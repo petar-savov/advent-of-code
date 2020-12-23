@@ -153,4 +153,46 @@ with open("day20/monster.txt") as f:
 
 monster = monster.split("\n")
 monster = [[1 if c == "#" else 0 for c in line] for line in monster]
+monster = np.array(monster)
 
+# delete tiles borders
+to_drop = [(i, i + 1) for i in range(9, 119, 10)]
+img = np.delete(img, to_drop, 0)
+img = np.delete(img, to_drop, 1)
+
+
+def check_monster(monster, arr):
+    if monster.shape != arr.shape:
+        raise Exception("Shapes don't match.")
+    ones = list(zip(np.where(monster == 1)[0], np.where(monster == 1)[1]))
+
+    return all([arr[pair] == 1 for pair in ones])
+
+
+monsters = get_flips(monster)
+img_ones = np.sum(img)
+for m in [monster]:
+    score = img_ones
+    m_ones = np.sum(m)
+    inds = []
+    ylen, xlen = m.shape
+    ymin, ymax = 0, ylen
+    xmin, xmax = 0, xlen
+
+    while True:
+        temp = img[ymin:ymax, xmin:xmax]
+        if check_monster(m, temp):
+            score -= m_ones
+
+        if (ymax, xmax) == img.shape:
+            break
+        if xmax == img.shape[1]:
+            xmin, xmax = 0, xlen
+            ymin += 1
+            ymax += 1
+
+        else:
+            xmin += 1
+            xmax += 1
+    if score < img_ones:
+        print(f"The score for this monster is {score}.")
