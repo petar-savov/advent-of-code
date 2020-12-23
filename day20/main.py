@@ -159,6 +159,8 @@ monster = np.array(monster)
 to_drop = [(i, i + 1) for i in range(9, 119, 10)]
 img = np.delete(img, to_drop, 0)
 img = np.delete(img, to_drop, 1)
+img = np.delete(img, (0, -1), 0)  # outside borders
+img = np.delete(img, (0, -1), 1)
 
 
 def check_monster(monster, arr):
@@ -169,19 +171,20 @@ def check_monster(monster, arr):
     return all([arr[pair] == 1 for pair in ones])
 
 
-monsters = get_flips(monster)
 img_ones = np.sum(img)
-for m in [monster]:
+imgs = get_flips(img)
+
+for img in imgs:
     score = img_ones
-    m_ones = np.sum(m)
+    m_ones = np.sum(monster)
     inds = []
-    ylen, xlen = m.shape
+    ylen, xlen = monster.shape
     ymin, ymax = 0, ylen
     xmin, xmax = 0, xlen
 
     while True:
         temp = img[ymin:ymax, xmin:xmax]
-        if check_monster(m, temp):
+        if check_monster(monster, temp):
             score -= m_ones
 
         if (ymax, xmax) == img.shape:
@@ -194,5 +197,7 @@ for m in [monster]:
         else:
             xmin += 1
             xmax += 1
+
     if score < img_ones:
-        print(f"The score for this monster is {score}.")
+        print(score)
+
