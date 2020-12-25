@@ -65,7 +65,6 @@ for k in matches:
 print(prod)
 
 # part 2
-# corners = [2749, 2713, 1487, 1063]
 
 tl_index = corners[0]
 topleft = tiles[tl_index]
@@ -74,13 +73,13 @@ tl_edges = get_edges(topleft)
 for edge in tl_edges:
     s = 0
     for j in edges:
-        if j != 2749:
+        if j != tl_index:
             s += sum([np.array_equal(edge, other) for other in edges[j]])
     if s == 0:
         print(edge)
 
 img = np.rot90(topleft, k=2)
-tiles.pop(2749)
+tiles.pop(tl_index)
 
 while True:
     for tile in tiles:
