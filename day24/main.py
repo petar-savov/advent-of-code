@@ -24,5 +24,33 @@ for line in inp:
         y += step[1]
 
     changed[(x, y)] += 1
-print(sum([cell for cell in changed.values() if cell % 2 == 1]))
+print(sum([cell for cell in changed.values() if cell % 2]))
 
+
+def flip(board):
+
+    black = defaultdict(int)
+    for ind in board:
+        if board[ind] % 2 == 0:
+            continue
+        for d in steps.values():
+            cell = (ind[0] + d[0], ind[1] + d[1])
+            black[cell] += 1
+
+    new = {}
+    for ind, cnt in board.items():
+        if cnt % 2:
+            if black.get(ind, 0) in (1, 2):
+                new[ind] = 1
+
+    for ind, cnt in black.items():
+        if cnt == 2 and board.get(ind, 0) % 2 == 0:
+            new[ind] = 1
+    return new
+
+
+board = changed
+for i in range(100):
+    board = flip(board)
+
+print(sum([cell for cell in board.values() if cell % 2]))
