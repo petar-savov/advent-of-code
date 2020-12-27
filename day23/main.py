@@ -2,9 +2,6 @@ with open("day23/input.txt") as f:
     inp = [int(x) for x in f.readlines()[0]]
 
 
-# inp = [int(x) for x in "389125467"]
-
-
 def to_dict(inp):
 
     d = {}
@@ -24,12 +21,12 @@ def step(d, current):
 
     dest = current - 1
     if dest == 0:
-        dest = 9
+        dest = max(d.values())
 
     while dest in [one, two, three]:
         dest -= 1
         if dest == 0:
-            dest = 9
+            dest = max(d.values())
 
     after_dest = d[dest]
     nxt = d[three]
@@ -57,5 +54,14 @@ d = to_dict(inp)
 for i in range(100):
     d, current = step(d, current)
 
-print("".join(tostr(d)))
+print(tostr(d))
 
+
+# part 2
+inp.extend(list(range(10, 1_000_000 + 1)))
+current = inp[0]
+d = to_dict(inp)
+for i in range(10_000_000):
+    d, current = step(d, current)
+
+print(d[1] * d[d[1]])
