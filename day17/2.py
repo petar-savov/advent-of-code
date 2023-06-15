@@ -4,8 +4,7 @@ with open("day17/input.txt") as f:
     inp = [line.strip() for line in f.readlines()]
 
 
-def read(square: str) -> np.array:
-
+def read(square: str):
     square = [[1 if c == "#" else 0 for c in line] for line in square]
     square = np.array(square)
     shape = np.expand_dims(square, 0)
@@ -14,7 +13,6 @@ def read(square: str) -> np.array:
 
 
 def rules(pt_val, neighbours):
-
     if pt_val == 1:
         return int(neighbours in [2, 3])
 
@@ -22,7 +20,6 @@ def rules(pt_val, neighbours):
 
 
 def count_neighbours(pt, box) -> int:
-
     a, z, y, x = pt[0], pt[1], pt[2], pt[3]
     amin = max(0, a - 1)
     amax = min(a + 2, box.shape[0])
@@ -39,8 +36,7 @@ def count_neighbours(pt, box) -> int:
     return result
 
 
-def transform(input_shape: np.array) -> np.array:
-
+def transform(input_shape):
     input_shape = np.pad(input_shape, 1)
     output_shape = np.zeros(input_shape.shape)
 

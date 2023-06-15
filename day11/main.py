@@ -4,24 +4,20 @@ with open("input.txt") as f:
     inp = [x.strip() for x in f.readlines()]
 
 
-def read(board: str) -> np.array:
-
+def read(board: str):
     board = [[0 if c == "L" else -1 for c in line] for line in board]
     board = np.array(board)
 
     return board
 
 
-def transform(input_board: np.array, fn, thr) -> np.array:
-
+def transform(input_board, fn, thr):
     output_board = np.zeros(input_board.shape)
 
     for i, row in enumerate(input_board):
         for j, _ in enumerate(row):
             neighbours = fn(pt=(i, j), board=input_board)
-            output_board[i, j] = rules(
-                pt_val=input_board[i, j], neighbours=neighbours, thr=thr
-            )
+            output_board[i, j] = rules(pt_val=input_board[i, j], neighbours=neighbours, thr=thr)
 
     return output_board
 
@@ -64,7 +60,6 @@ print(np.sum(board == 1))
 
 
 def count_visible(pt, board) -> int:
-
     nrows, ncols = board.shape
     counted = set()
     for dr, dc in [
@@ -77,7 +72,6 @@ def count_visible(pt, board) -> int:
         (-1, 1),
         (-1, -1),
     ]:
-
         row, col = pt[0], pt[1]
         while True:
             row = row + dr

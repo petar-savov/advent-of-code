@@ -10,15 +10,14 @@ inp = inp.split("\n\n")[:-1]
 tiles = {}
 for tile in inp:
     tile = tile.split("\n")
-    ind = int(re.findall("\d+", tile[0])[0])
+    ind = int(re.findall(r"\d+", tile[0])[0])
     tile = tile[1:]
     tile = [[1 if c == "#" else 0 for c in line] for line in tile]
     tile = np.array(tile)
     tiles[ind] = tile
 
 
-def get_flips(arr: np.array) -> list:
-
+def get_flips(arr) -> list:
     flips = [arr]
     flips.extend([np.rot90(arr, k) for k in [1, 2, 3]])
     flips.extend([np.flip(arr, axis) for axis in [0, 1]])
@@ -29,7 +28,7 @@ def get_flips(arr: np.array) -> list:
     return flips
 
 
-def get_edges(arr: np.array) -> list:
+def get_edges(arr) -> list:
     return [
         arr[0, :],
         arr[-1, :],
@@ -106,7 +105,6 @@ hmin, hmax = 0, 10
 vmin, vmax = 10, 20
 
 while True:
-
     if hmin == 0:
         for tile in tiles:
             flips = get_flips(tiles[tile])
@@ -124,9 +122,9 @@ while True:
             flips = get_flips(tiles[tile])
             br = False
             for flip in flips:
-                if np.array_equal(
-                    img[vmin - 1, hmin:hmax], flip[0, :]
-                ) and np.array_equal(img[vmin:vmax, hmin - 1], flip[:, 0]):
+                if np.array_equal(img[vmin - 1, hmin:hmax], flip[0, :]) and np.array_equal(
+                    img[vmin:vmax, hmin - 1], flip[:, 0]
+                ):
                     img[vmin:vmax, hmin:hmax] = flip
                     br = True
                     to_pop = tile
@@ -199,4 +197,3 @@ for img in imgs:
 
     if score < img_ones:
         print(score)
-
